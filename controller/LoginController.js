@@ -10,6 +10,10 @@ const CALLBACKURL = encodeURIComponent("http://weipay.hangdali.com/loginCallback
 
 exports.login = async function (ctx,next) {
 	console.log('heer--------');
+	if(ctx.seesion.user){
+		ctx.redirect('/userInfo');
+		return;
+	}
 	let url = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${vService.appID}&redirect_uri=${CALLBACKURL}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`;
 	ctx.redirect(url);
 
@@ -19,9 +23,18 @@ exports.loginCallback = async function (ctx, next) {
 	let query = ctx.query;
 	let userInfo = await vLogin.vLoginService(query);
 	if(!!userInfo){
-		await ctx.render('user',{user:userInfo});
+		ctx.session.user = userInfo;
+		ctx.redirect('/userInfo');
 	}else{
-		await ctx.render('error');
+		await ctx.redirect('/');
 	}
+};
 
+exports.userInfo = async function (ctx, next) {
+	if(ctx.seesion.user){
+		await ctx.render('user',{user:ctx.seesion.user});
+		return;
+	}else{
+		 ctx.redirect('/login');
+	}
 };

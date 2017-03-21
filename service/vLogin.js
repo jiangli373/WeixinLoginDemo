@@ -21,7 +21,7 @@ exports.vLoginService = async function (query) {
 		};
 		try {
 			let tokenBody = await request(options);
-			if (!!tokenBody) {
+			if (!!tokenBody&&!tokenBody.hasOwnProperty('errcode')) {
 				console.log('====token body====', tokenBody);
 				let token = tokenBody.access_token;
 				let openid = tokenBody.openid;
@@ -34,7 +34,13 @@ exports.vLoginService = async function (query) {
 				};
 				let result = await request(options2);
 				console.log('====user body====', result);
-				return result;
+				if(!!result&&!result.hasOwnProperty('errcode')){
+					return result;
+				}else{
+					return null;
+				}
+			}else{
+				return null;
 			}
 		}catch(error){
 			 console.error(error);

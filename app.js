@@ -9,6 +9,7 @@ const Router = require('koa-router')
 	,bodyparser = require('koa-bodyparser')
 	,log4js = require('koa-log4')
 	,json = require('koa-json')
+	,session = require('koa-generic-session')
 	,path = require('path');
 
 log4js.configure('./log4js.json');
@@ -23,10 +24,12 @@ render(app, {
 	cache: false,
 	debug: true
 });
+app.keys = ['keys', 'keykeys'];
+app.use(session());
 
 // middlewares
 app.use(bodyparser());
-// app.use(json());
+app.use(json());
 
 
 app.use(log4js.koaLogger(log4js.getLogger('http'), { level: 'auto',format:':remote-addr - -' +
