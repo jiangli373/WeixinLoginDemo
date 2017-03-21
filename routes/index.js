@@ -11,5 +11,5 @@ router.get('login', LoginController.login);
 
 router.get('loginCallback',LoginController.loginCallback);
 
-
+router.get('userInfo',LoginController.userInfo);
 module.exports = router;
