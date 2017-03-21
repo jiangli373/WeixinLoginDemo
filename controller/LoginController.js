@@ -17,7 +17,7 @@ exports.login = async function (ctx,next) {
 
 exports.loginCallback = async function (ctx, next) {
 	let query = ctx.query;
-	let userInfo = vLogin.vLoginService(query);
+	let userInfo = await vLogin.vLoginService(query);
 	if(!!userInfo){
 		await ctx.render('user',{user:userInfo});
 	}else{
