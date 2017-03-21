@@ -10,7 +10,7 @@ const CALLBACKURL = encodeURIComponent("http://weipay.hangdali.com/loginCallback
 
 exports.login = async function (ctx,next) {
 	console.log('heer--------');
-	if(ctx.seesion.user){
+	if(ctx.seesion&&ctx.seesion.user){
 		ctx.redirect('/userInfo');
 		return;
 	}
@@ -31,7 +31,7 @@ exports.loginCallback = async function (ctx, next) {
 };
 
 exports.userInfo = async function (ctx, next) {
-	if(ctx.seesion.user){
+	if(ctx.seesion&&ctx.seesion.user){
 		await ctx.render('user',{user:ctx.seesion.user});
 		return;
 	}else{
