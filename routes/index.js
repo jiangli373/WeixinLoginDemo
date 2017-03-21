@@ -5,8 +5,11 @@
 const Router = require('koa-router');
 const router = new Router();
 
-router.get('/', async function (ctx, next) {
-	await ctx.render('index',{title:'Hello Koa2'})
-});
+const LoginController = require('../controller/LoginController');
+
+router.get('login', LoginController.login);
+
+router.get('loginCallback',LoginController.loginCallback);
+
 
 module.exports = router;
