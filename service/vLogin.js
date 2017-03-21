@@ -33,6 +33,7 @@ exports.vLoginService = async function (query) {
 					timeout: 5000
 				};
 				let result = await request(options2);
+				console.log('====user body====', result);
 				return result;
 			}
 		}catch(error){
